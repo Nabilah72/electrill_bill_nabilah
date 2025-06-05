@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ccccff"
+    tools:context=".AboutActivity">
+
+    <include
+        layout="@layout/header"
+        android:id="@+id/headerLayout" />
+
+    <TextView
+        android:id="@+id/aboutInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:text="Name: Nabilah binti Ahmad Fauzi\nStudent ID: 2024977489\nCourse: ICT602 – Mobile Technology\n\nThis app helps users estimate their electricity bills easily and accurately.\n\n© 2025 Nabilah. All rights reserved."
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visit GitHub Page"
+        android:textSize="15sp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/coustard"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/aboutInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

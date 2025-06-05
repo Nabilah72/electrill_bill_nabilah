@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "83240292043",
+    "project_id": "individual-nabilah",
+    "storage_bucket": "individual-nabilah.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83240292043:android:cf992e001ceae8e475554e",
+        "android_client_info": {
+          "package_name": "com.example.individual_assignment_nabilah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApEtsZmQnlF6jfRkySP1-pb4hasG85cBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
