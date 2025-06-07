@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSignupSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -67,12 +67,9 @@
         android:layout_marginEnd="40dp"
         android:onClick="createUser"
         android:text="Sign Up"
-        android:fontFamily="@font/poppins_medium"
-        android:textColor="@color/white"
-        android:backgroundTint="#4634A7"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Primary"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

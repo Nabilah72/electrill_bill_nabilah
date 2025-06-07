@@ -35,36 +35,34 @@
         android:layout_gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
         android:text="Login"
-        android:fontFamily="@font/poppins_medium"
-        android:textColor="@color/white"
-        android:backgroundTint="#4634A7"
         android:textSize="15sp"
+        android:fontFamily="@font/poppins_medium"
         app:layout_constraintTop_toBottomOf="@+id/textViewWelcome"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Primary" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSignup"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_height="wrap_content"
-        android:text="Signup"
-        android:fontFamily="@font/poppins_medium"
         android:layout_marginTop="15dp"
-        android:textColor="#4634A7"
-        android:backgroundTint="#fff"
+        android:text="Signup"
         android:textSize="15sp"
+        android:fontFamily="@font/poppins_medium"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Secondary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

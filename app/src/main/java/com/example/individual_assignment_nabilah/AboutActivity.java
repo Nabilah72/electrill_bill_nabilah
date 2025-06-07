@@ -3,6 +3,7 @@ package com.example.individual_assignment_nabilah;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class AboutActivity extends AppCompatActivity {
         // Back button handler
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> onBackPressed());
+
+        ImageButton logoutBtn = findViewById(R.id.logout_button);
+        logoutBtn.setVisibility(View.GONE);
 
         // GitHub button handler
         Button btnGitHub = findViewById(R.id.btnGitHub);

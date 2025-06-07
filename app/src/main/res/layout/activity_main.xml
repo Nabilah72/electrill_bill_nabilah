@@ -13,15 +13,14 @@
         layout="@layout/header"
         android:id="@+id/headerLayout" />
 
-       <!-- Main Content Layout -->
-
     <!-- Italic message -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:strokeColor="#4634A7">
 
         <TextView
             android:id="@+id/tapHintTextView"
@@ -31,10 +30,9 @@
             android:layout_marginEnd="15dp"
             android:text="Tap on an item to view options"
             android:fontFamily="@font/poppins"
-            android:textColor="#4634A7"
             android:textStyle="italic"
             android:layout_gravity="end"
-            />
+            android:textColor="#4634A7"/>
 
         <include layout="@layout/content_main2" />
 
@@ -47,7 +45,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-
+        app:backgroundTint="#4634A7"
+        app:strokeColor="#CCCCFF"
+        app:tint="#CCCCFF"
+        app:strokeWidth="3dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
