@@ -2,6 +2,7 @@ package com.example.individual_assignment_nabilah;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,21 +36,23 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Link to UI elements
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
 
-        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
     }
 
-    // Called when login button is pressed
     public void loginUser(View view) {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        if(email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Email and Password must not be empty", Toast.LENGTH_SHORT).show();
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please fill in both email and password.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(getApplicationContext(), "The email address format is invalid.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -57,13 +60,13 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Login failed: Incorrect email or password.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -1,30 +1,26 @@
-// MainActivity.java
 package com.example.individual_assignment_nabilah;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.firebase.auth.FirebaseAuth;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
-
-import com.example.individual_assignment_nabilah.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-
+    FirebaseAuth auth;
     String[] register;
     int[] recordIds;
     ListView ListView01;
@@ -35,13 +31,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // This layout includes the header.xml via <include>
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // Set header title text
+        TextView title = findViewById(R.id.header_title);
+        title.setText("Electricity Bills");
 
-        setSupportActionBar(binding.toolbar);
+        // Set back button behavior (optional, can finish activity or navigate)
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish(); // Or navigate elsewhere if needed
+            }
+        });
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        auth = FirebaseAuth.getInstance();
+
+        // Floating Action Button to create new record
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateActivity.class);
@@ -52,18 +60,6 @@ public class MainActivity extends AppCompatActivity {
         ma = this;
         dbcenter = new DataHelper(this);
         RefreshList();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     public void RefreshList() {
@@ -83,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ListView01 = findViewById(R.id.listView1);
-        ListView01.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, register));
+        ListView01.setDivider(new ColorDrawable(Color.parseColor("#4634A7")));
+        ListView01.setDividerHeight(1);
+
+        ListView01.setAdapter(new ArrayAdapter<>(this,R.layout.list_item_black, register));
         ListView01.setSelected(true);
 
         ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                             case 2:
                                 SQLiteDatabase db = dbcenter.getWritableDatabase();
                                 db.execSQL("DELETE FROM bill WHERE no = " + selectedId);
-                                Toast.makeText(getApplicationContext(), "Record Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Data Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 RefreshList();
                                 break;
                         }
@@ -120,6 +119,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        TextView title = findViewById(R.id.header_title);
+        title.setText("Electricity Bills");
+
+        ImageButton backBtn = findViewById(R.id.back_button);
+        backBtn.setVisibility(View.GONE);
+
+        ImageButton logoutBtn = findViewById(R.id.logout_button);
+        logoutBtn.setOnClickListener(v -> signout());
+
         ((ArrayAdapter<?>) ListView01.getAdapter()).notifyDataSetInvalidated();
+    }
+    public void signout() {
+        auth.signOut();
+        Toast.makeText(this, "Logged Out Successfully.", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, WelcomeActivity.class);
+        startActivity(i);
+        finish();
     }
 }

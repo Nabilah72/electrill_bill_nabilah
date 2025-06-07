@@ -5,80 +5,204 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ccccff"
     tools:context=".UpdateActivity">
 
+    <include
+        android:id="@+id/headerLayout"
+        layout="@layout/header" />
+
+    <!-- ID Display (hidden, but accessible) -->
     <TextView
         android:id="@+id/editText1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID Number"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:paddingStart="16dp" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Month (e.g. Jan)"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@+id/editText1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="ID Number"
+        android:textColor="#4634A7"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
+    <!-- Month Dropdown -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputMonthLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="40dp"
+        android:hint="Select Month"
+        android:textColorHint="#4634A7"
+        android:textSize="15sp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="#4634A7"
+        app:hintTextColor="#4634A7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText1">
+
+        <AutoCompleteTextView
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4634A7"
+            android:fontFamily="@font/poppins_medium"
+            android:inputType="none"
+            android:popupBackground="#ccccff"
+            android:textColor="@color/black"
+            android:textColorHint="#808080"
+            android:textSize="15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Unit Label -->
+    <TextView
+        android:id="@+id/textViewUnitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Electricity Used (kWh)"
+        android:textColor="#4634A7"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputMonthLayout" />
+
+    <!-- Unit (kWh) -->
     <EditText
         android:id="@+id/editText3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Unit (kWh)"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#4634A7"
+        android:fontFamily="@font/poppins_medium"
+        android:hint="Enter Unit Used"
         android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewUnitLabel" />
 
-    <EditText
-        android:id="@+id/editText4"
+    <!-- Rebate Label -->
+    <TextView
+        android:id="@+id/textViewRebateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Rebate (%)"
+        android:textColor="#4634A7"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText3" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupRebate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Rebate (%)"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/textViewRebateLabel">
 
+        <!-- 6 RadioButtons: 0% to 5% -->
+        <RadioButton
+            android:id="@+id/radio0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="1%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="2%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/radio3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="3%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/radio4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="4%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/radio5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="5%"
+            android:textColor="#4634A7"
+            android:theme="@style/RadioButtonStyle" />
+    </RadioGroup>
+
+    <!-- Update Button -->
     <Button
         android:id="@+id/button1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="UPDATE"
-        app:layout_constraintTop_toBottomOf="@+id/editText4"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="#4634A7"
+        android:fontFamily="@font/poppins_medium"
+        android:text="UPDATE BILL"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel" />
 
+    <!-- Cancel Button -->
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="BACK"
-        app:layout_constraintTop_toBottomOf="@+id/button1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#fff"
+        android:fontFamily="@font/poppins_medium"
+        android:text="CANCEL"
+        android:textColor="#4634A7"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,14 +15,6 @@
         android:theme="@style/Theme.Individual_assignment_nabilah"
         tools:targetApi="31">
         <activity
-            android:name=".test"
-            android:exported="false"
-            android:theme="@style/Theme.Individual_assignment_nabilah" />
-        <activity
-            android:name=".MainActivity2"
-            android:exported="false"
-            android:theme="@style/Theme.Individual_assignment_nabilah" />
-        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
@@ -39,9 +31,6 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"

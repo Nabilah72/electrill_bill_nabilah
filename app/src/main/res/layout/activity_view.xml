@@ -4,23 +4,131 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ccccff"
     tools:context=".ViewActivity">
 
-    <TextView android:id="@+id/labelMonth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Month" android:layout_marginTop="24dp" android:layout_marginStart="24dp" android:layout_alignParentStart="true" />
-    <TextView android:id="@+id/textMonth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/labelMonth" android:layout_alignBaseline="@id/labelMonth" android:layout_marginStart="24dp" />
+    <include
+        layout="@layout/header"
+        android:id="@+id/headerLayout" />
 
-    <TextView android:id="@+id/labelUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Unit" android:layout_below="@id/labelMonth" android:layout_marginTop="16dp" android:layout_alignStart="@id/labelMonth" />
-    <TextView android:id="@+id/textUnit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/labelUnit" android:layout_alignBaseline="@id/labelUnit" android:layout_marginStart="24dp" />
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp">
 
-    <TextView android:id="@+id/labelTotalCharges" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Charges" android:layout_below="@id/labelUnit" android:layout_marginTop="16dp" android:layout_alignStart="@id/labelUnit" />
-    <TextView android:id="@+id/textTotalCharges" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/labelTotalCharges" android:layout_alignBaseline="@id/labelTotalCharges" android:layout_marginStart="24dp" />
+        <!-- Month -->
+        <TextView
+            android:id="@+id/labelMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Month:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_medium" />
 
-    <TextView android:id="@+id/labelRebate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rebate (%)" android:layout_below="@id/labelTotalCharges" android:layout_marginTop="16dp" android:layout_alignStart="@id/labelTotalCharges" />
-    <TextView android:id="@+id/textRebate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/labelRebate" android:layout_alignBaseline="@id/labelRebate" android:layout_marginStart="24dp" />
+        <TextView
+            android:id="@+id/textMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4634A7"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginBottom="16dp" />
 
-    <TextView android:id="@+id/labelFinalCost" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Final Cost" android:layout_below="@id/labelRebate" android:layout_marginTop="16dp" android:layout_alignStart="@id/labelRebate" />
-    <TextView android:id="@+id/textFinalCost" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/labelFinalCost" android:layout_alignBaseline="@id/labelFinalCost" android:layout_marginStart="24dp" />
+        <!-- Unit -->
+        <TextView
+            android:id="@+id/labelUnit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unit:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_medium" />
 
-    <Button android:id="@+id/buttonBack" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BACK" android:layout_below="@id/labelFinalCost" android:layout_marginTop="32dp" android:layout_marginStart="24dp" android:layout_marginEnd="24dp" android:layout_alignParentStart="true" android:layout_alignParentEnd="true" />
+        <TextView
+            android:id="@+id/textUnit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4634A7"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Total Charges -->
+        <TextView
+            android:id="@+id/labelTotalCharges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Charges:"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_medium" />
+
+        <TextView
+            android:id="@+id/textTotalCharges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4634A7"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Rebate -->
+        <TextView
+            android:id="@+id/labelRebate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rebate (%):"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_medium" />
+
+        <TextView
+            android:id="@+id/textRebate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4634A7"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Final Cost -->
+        <TextView
+            android:id="@+id/labelFinalCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Final Cost:"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:fontFamily="@font/poppins_medium" />
+
+        <TextView
+            android:id="@+id/textFinalCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#4634A7"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginBottom="32dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BACK"
+        android:fontFamily="@font/poppins_medium"
+        android:textColor="@color/white"
+        android:backgroundTint="#4634A7"
+        android:textSize="16sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp" />
 
 </RelativeLayout>
