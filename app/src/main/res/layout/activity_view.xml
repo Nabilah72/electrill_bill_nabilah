@@ -26,8 +26,10 @@
             android:id="@+id/labelMonth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Month:"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:fontFamily="@font/poppins_medium" />
 
@@ -35,6 +37,7 @@
             android:id="@+id/textMonth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textColor="#4634A7"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
@@ -45,8 +48,10 @@
             android:id="@+id/labelUnit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Unit:"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:fontFamily="@font/poppins_medium" />
 
@@ -54,6 +59,7 @@
             android:id="@+id/textUnit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textColor="#4634A7"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
@@ -64,8 +70,10 @@
             android:id="@+id/labelTotalCharges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Total Charges:"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:fontFamily="@font/poppins_medium" />
 
@@ -73,6 +81,7 @@
             android:id="@+id/textTotalCharges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textColor="#4634A7"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
@@ -83,8 +92,10 @@
             android:id="@+id/labelRebate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Rebate (%):"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="#000000"
             android:fontFamily="@font/poppins_medium" />
 
@@ -92,6 +103,7 @@
             android:id="@+id/textRebate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textColor="#4634A7"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
@@ -102,15 +114,18 @@
             android:id="@+id/labelFinalCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Final Cost:"
-            android:textSize="16sp"
-            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
             android:fontFamily="@font/poppins_medium" />
 
         <TextView
             android:id="@+id/textFinalCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:textColor="#4634A7"
             android:textSize="16sp"
             android:fontFamily="@font/poppins_medium"
@@ -130,5 +145,4 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp" />
-
 </RelativeLayout>
