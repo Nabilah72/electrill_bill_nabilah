@@ -14,13 +14,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.firebase.auth.FirebaseAuth;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
     String[] register;
     int[] recordIds;
     ListView ListView01;
@@ -45,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 finish(); // Or navigate elsewhere if needed
             }
         });
-
-        auth = FirebaseAuth.getInstance();
 
         // Floating Action Button to create new record
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
@@ -123,18 +119,8 @@ public class MainActivity extends AppCompatActivity {
         title.setText("Electricity Bills");
 
         ImageButton backBtn = findViewById(R.id.back_button);
-        backBtn.setVisibility(View.GONE);
-
-        ImageButton logoutBtn = findViewById(R.id.logout_button);
-        logoutBtn.setOnClickListener(v -> signout());
+        backBtn.setOnClickListener(v -> onBackPressed());
 
         ((ArrayAdapter<?>) ListView01.getAdapter()).notifyDataSetInvalidated();
-    }
-    public void signout() {
-        auth.signOut();
-        Toast.makeText(this, "Logged Out Successfully.", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, WelcomeActivity.class);
-        startActivity(i);
-        finish();
     }
 }

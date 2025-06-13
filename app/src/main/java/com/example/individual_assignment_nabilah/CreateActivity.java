@@ -1,34 +1,31 @@
 package com.example.individual_assignment_nabilah;
 
+import android.app.AlertDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Intent;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class CreateActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
     AutoCompleteTextView autoCompleteTextView;
     EditText editUnit;
-
     RadioGroup radioGroupRebate;
-
     Button btnSave, btnCancel;
     DataHelper dbHelper;
 
@@ -44,7 +41,6 @@ public class CreateActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth = FirebaseAuth.getInstance();
         dbHelper = new DataHelper(this);
         autoCompleteTextView = findViewById(R.id.textMonth);
         editUnit = findViewById(R.id.editUnit);
@@ -52,7 +48,6 @@ public class CreateActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.button1);
         btnCancel = findViewById(R.id.btnCancel);
 
-        // Setup dropdown menu
         String[] months = {"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_black, months);
@@ -80,7 +75,7 @@ public class CreateActivity extends AppCompatActivity {
             double unit;
 
             try {
-                rebate = Integer.parseInt(rebateText);  // changed here: parse rebate as int
+                rebate = Integer.parseInt(rebateText);
                 unit = Double.parseDouble(unitStr);
             } catch (NumberFormatException e) {
                 Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
@@ -88,8 +83,47 @@ public class CreateActivity extends AppCompatActivity {
             }
 
             double totalCharges = BillCalculator.calculateTotalCharges(unit);
-            double finalCost = BillCalculator.applyRebate(totalCharges, rebate);  // rebate as int
+            double finalCost = BillCalculator.applyRebate(totalCharges, rebate);
 
+            // Show popup summary before saving
+            showPopupSummary(month, unit, rebate, totalCharges, finalCost);
+        });
+
+        btnCancel.setOnClickListener(v -> finish());
+
+        TextView title = findViewById(R.id.header_title);
+        title.setText("Add Bill");
+
+        ImageButton backBtn = findViewById(R.id.back_button);
+        backBtn.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void showPopupSummary(String month, double unit, int rebate, double totalCharges, double finalCost) {
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.popup_summary, null);
+
+        TextView textSummary = popupView.findViewById(R.id.textSummaryDetails);
+        Button btnClose = popupView.findViewById(R.id.buttonClose);
+
+        String summary = String.format(
+                "Month: %s\n" +
+                        "Electricity Used: %.2f kWh\n" +
+                        "Rebate: %d%%\n\n" +
+                        "Total Charges: RM %.2f\n" +
+                        "Final Cost: RM %.2f",
+                month, unit, rebate, totalCharges, finalCost
+        );
+        textSummary.setText(summary);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(popupView)
+                .setCancelable(false)
+                .create();
+
+        btnClose.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            // Save to database after confirmation
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.execSQL("INSERT INTO bill (month, unit, rebate, totalCharges, finalCost) VALUES (?, ?, ?, ?, ?)",
                     new Object[]{month, unit, rebate, totalCharges, finalCost});
@@ -99,24 +133,6 @@ public class CreateActivity extends AppCompatActivity {
             finish();
         });
 
-        btnCancel.setOnClickListener(v -> finish());
-
-        // Set title and back button in header
-        TextView title = findViewById(R.id.header_title);
-        title.setText("Add Bill");
-
-        ImageButton backBtn = findViewById(R.id.back_button);
-        backBtn.setOnClickListener(v -> onBackPressed());
-
-        ImageButton logoutBtn = findViewById(R.id.logout_button);
-        logoutBtn.setOnClickListener(v -> signout());
-    }
-
-    public void signout() {
-        auth.signOut();
-        Toast.makeText(this, "Logged Out Successfully.", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, WelcomeActivity.class);
-        startActivity(i);
-        finish();
+        dialog.show();
     }
 }

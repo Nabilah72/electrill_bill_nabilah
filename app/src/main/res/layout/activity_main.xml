@@ -13,8 +13,6 @@
         layout="@layout/header"
         android:id="@+id/headerLayout" />
 
-    <!-- Italic message -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

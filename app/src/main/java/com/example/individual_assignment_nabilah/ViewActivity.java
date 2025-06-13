@@ -1,14 +1,11 @@
 package com.example.individual_assignment_nabilah;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class ViewActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
     protected Cursor cursor;
     DataHelper dbHelper;
     Button btnBack;
@@ -38,7 +32,6 @@ public class ViewActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth = FirebaseAuth.getInstance();
         dbHelper = new DataHelper(this);
 
         textMonth = findViewById(R.id.textMonth);
@@ -74,16 +67,6 @@ public class ViewActivity extends AppCompatActivity {
 
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> onBackPressed());
-
-        ImageButton logoutBtn = findViewById(R.id.logout_button);
-        logoutBtn.setOnClickListener(v -> signout());
     }
 
-    public void signout() {
-        auth.signOut();
-        Toast.makeText(this, "Logged Out Successfully.", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, WelcomeActivity.class);
-        startActivity(i);
-        finish();
-    }
 }

@@ -1,9 +1,11 @@
 package com.example.individual_assignment_nabilah;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -14,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +23,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class UpdateActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
     DataHelper dbHelper;
     Button btnUpdate, btnCancel;
     AutoCompleteTextView editMonth;
@@ -38,6 +36,8 @@ public class UpdateActivity extends AppCompatActivity {
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
     };
+
+    int billId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,6 @@ public class UpdateActivity extends AppCompatActivity {
             return insets;
         });
 
-        auth = FirebaseAuth.getInstance();
         dbHelper = new DataHelper(this);
         textId = findViewById(R.id.editText1);
         editMonth = findViewById(R.id.editText2);
@@ -67,12 +66,12 @@ public class UpdateActivity extends AppCompatActivity {
             if (hasFocus) editMonth.showDropDown();
         });
 
-        int id = getIntent().getIntExtra("id", -1);
-        if (id != -1) {
-            loadBillData(id);
+        billId = getIntent().getIntExtra("id", -1);
+        if (billId != -1) {
+            loadBillData(billId);
         }
 
-        btnUpdate.setOnClickListener(v -> updateBill(id));
+        btnUpdate.setOnClickListener(v -> attemptUpdate(billId));
         btnCancel.setOnClickListener(v -> finish());
 
         TextView title = findViewById(R.id.header_title);
@@ -80,9 +79,6 @@ public class UpdateActivity extends AppCompatActivity {
 
         ImageButton backBtn = findViewById(R.id.back_button);
         backBtn.setOnClickListener(v -> onBackPressed());
-
-        ImageButton logoutBtn = findViewById(R.id.logout_button);
-        logoutBtn.setOnClickListener(v -> signout());
     }
 
     private void loadBillData(int id) {
@@ -93,12 +89,11 @@ public class UpdateActivity extends AppCompatActivity {
             editMonth.setText(cursor.getString(cursor.getColumnIndexOrThrow("month")), false);
             editUnit.setText(cursor.getString(cursor.getColumnIndexOrThrow("unit")));
 
-            int rebateValue = cursor.getInt(cursor.getColumnIndexOrThrow("rebate"));  // get rebate as int
+            int rebateValue = cursor.getInt(cursor.getColumnIndexOrThrow("rebate"));
             for (int i = 0; i < radioGroupRebate.getChildCount(); i++) {
                 View child = radioGroupRebate.getChildAt(i);
                 if (child instanceof RadioButton) {
                     RadioButton rb = (RadioButton) child;
-                    // Compare rebate int to rb text after removing % sign
                     String rbText = rb.getText().toString().replace("%", "").trim();
                     try {
                         int rbValue = Integer.parseInt(rbText);
@@ -113,7 +108,7 @@ public class UpdateActivity extends AppCompatActivity {
         cursor.close();
     }
 
-    private void updateBill(int id) {
+    private void attemptUpdate(int id) {
         String month = editMonth.getText().toString().trim();
         String unitStr = editUnit.getText().toString().trim();
         int selectedRebateId = radioGroupRebate.getCheckedRadioButtonId();
@@ -157,31 +152,56 @@ public class UpdateActivity extends AppCompatActivity {
         double totalCharges = BillCalculator.calculateTotalCharges(unit);
         double finalCost = BillCalculator.applyRebate(totalCharges, rebate);
 
-        try {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            String sql = "UPDATE bill SET month=?, unit=?, rebate=?, totalCharges=?, finalCost=? WHERE no=?";
-            SQLiteStatement stmt = db.compileStatement(sql);
-            stmt.bindString(1, month);
-            stmt.bindDouble(2, unit);
-            stmt.bindLong(3, rebate);  // rebate stored as int
-            stmt.bindDouble(4, totalCharges);
-            stmt.bindDouble(5, finalCost);
-            stmt.bindLong(6, id);
-            stmt.executeUpdateDelete();
-
-            Toast.makeText(this, "Data Successfully Updated", Toast.LENGTH_SHORT).show();
-            MainActivity.ma.RefreshList();
-            finish();
-        } catch (Exception e) {
-            Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        // Show confirmation popup before saving
+        showPopupSummary(id, month, unit, rebate, totalCharges, finalCost);
     }
 
-    public void signout() {
-        auth.signOut();
-        Toast.makeText(this, "Logged Out Successfully.", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, WelcomeActivity.class);
-        startActivity(i);
-        finish();
+    private void showPopupSummary(int id, String month, double unit, int rebate, double totalCharges, double finalCost) {
+        LayoutInflater inflater = getLayoutInflater();
+        View popupView = inflater.inflate(R.layout.popup_summary, null);
+
+        TextView textSummary = popupView.findViewById(R.id.textSummaryDetails);
+        Button btnClose = popupView.findViewById(R.id.buttonClose);
+
+        String summary = String.format(
+                "Month: %s\n" +
+                        "Electricity Used: %.2f kWh\n" +
+                        "Rebate: %d%%\n\n" +
+                        "Total Charges: RM %.2f\n" +
+                        "Final Cost: RM %.2f",
+                month, unit, rebate, totalCharges, finalCost
+        );
+        textSummary.setText(summary);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(popupView)
+                .setCancelable(false)
+                .create();
+
+        btnClose.setText("CONFIRM");
+        btnClose.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            try {
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                String sql = "UPDATE bill SET month=?, unit=?, rebate=?, totalCharges=?, finalCost=? WHERE no=?";
+                SQLiteStatement stmt = db.compileStatement(sql);
+                stmt.bindString(1, month);
+                stmt.bindDouble(2, unit);
+                stmt.bindLong(3, rebate);
+                stmt.bindDouble(4, totalCharges);
+                stmt.bindDouble(5, finalCost);
+                stmt.bindLong(6, id);
+                stmt.executeUpdateDelete();
+
+                Toast.makeText(this, "Data Successfully Updated", Toast.LENGTH_SHORT).show();
+                MainActivity.ma.RefreshList();
+                finish();
+            } catch (Exception e) {
+                Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        dialog.show();
     }
 }
